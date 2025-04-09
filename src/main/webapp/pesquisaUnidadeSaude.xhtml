@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+    <h:head>
+        <!--<h:outputStylesheet library="css" name="style.css" />-->
+        <title>Gerencia Unidade Saúde</title>
+    </h:head>
+    <h:body onload="#{managerUnidadeSaude.listaTodas()}">
+        <h:form id="form">
+            <p:growl/>
+            <p:panel header="Pesquisar Unidade Saúde">
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="Nome: "/>
+                    <p:inputText value="#{managerUnidadeSaude.filtro}"/>
+                </h:panelGrid>
+                <p:commandButton icon="pi pi-plus-circle" value="Pesquisar" actionListener="#{managerUnidadeSaude.filtraPorNome()}" update="@form" />
+                <p:button value="Voltar" icon="pi pi-home" href="#{managerUnidadeSaude.voltarPara}"/>            
+                <p:dataTable id="unidadeSaudeList" var="uS" value="#{managerUnidadeSaude.unidadesSaude}" editable="true">
+                    <p:column headerText="Id" sortBy="#{uS.id}">
+                        <p:outputLabel value="#{uS.id}"/>
+                   </p:column>
+                    <p:column headerText="Nome" sortBy="#{uS.nome}">
+                        <p:outputLabel value="#{uS.nome}"/>
+                   </p:column>
+                    <p:column headerText="Código">
+                        <p:outputLabel value="#{uS.codigo}"/> 
+                    </p:column>                
+                    <p:column headerText="Ações">
+                       <p:button icon="pi pi-eye" href="unidadeSaude.xhtml?visualizar=#{uS.id}"/>   
+                       <p:button icon="pi pi-pencil" href="unidadeSaude.xhtml?editar=#{uS.id}"/>
+                       <p:commandButton icon="pi pi-trash" oncomplete="PF('dlgExcluir').show()" update=":form:dlgExcluir">
+                           <f:setPropertyActionListener target="#{managerUnidadeSaude.unidadeSaude}" value="#{uS}"/>
+                       </p:commandButton>
+                    </p:column>
+                </p:dataTable>               
+
+                <p:dialog id="dlgExcluir" widgetVar="dlgExcluir" header="Excluir Unidade Saúde">
+                    <h3>Deseja excluir essa Unidade Saúde?</h3>
+                    <p:commandButton value="Sim" update="unidadeSaudeList" actionListener="#{managerUnidadeSaude.inativar()}" oncomplete="PF('dlgExcluir').hide()"/>
+                    <p:commandButton value="Não" oncomplete="PF('dlgExcluir').hide()"/>
+                </p:dialog>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
