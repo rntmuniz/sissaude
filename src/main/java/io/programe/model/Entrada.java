@@ -1,7 +1,5 @@
 package io.programe.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,28 +18,20 @@ public class Entrada implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "seq_entrada_id")
     private Long id;
     
-//    @Column(nullable = false)
     private Date data;
-    
-//    @Column(nullable = false)
-    private String numeroNota;
-    
-//    @Column(nullable = false)
+    private String numeroNota;    
     private String fornecedor;
     
     @OneToMany
+    @JoinColumn(name = "loteentrada_id", referencedColumnName = "id")
     private List<Lote> lotesEntrada;
     
-//    @Column(nullable = false)
     private Boolean ativo;
 
     public Entrada() {
-    }
-    
-    public Entrada(Boolean ativo) {
         this.ativo = Boolean.TRUE;
     }
-
+    
     public Long getId() {
         return id;
     }

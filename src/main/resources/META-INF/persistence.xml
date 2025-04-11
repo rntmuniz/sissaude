@@ -4,7 +4,7 @@
   <persistence-unit name="io.programe_SisSaude_war_1.0-SNAPSHOTPU" transaction-type="JTA">
     <jta-data-source>jdbc/sissaude</jta-data-source>
     <properties>
-      <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+      <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>

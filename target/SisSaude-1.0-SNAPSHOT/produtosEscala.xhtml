@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+    <h:head>
+        <title>Cadastro de Múltiplos Produtos </title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:growl/>
+            <p:panel header="Cadastro de Múltiplos Produtos">
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="Nome: " style="font-weight:bold"/>
+                    <p:inputText value="#{managerProduto.produto.nome}" onblur="this.value = this.value.toUpperCase();" required="true" requiredMessage="O campo nome é obrigatório" />
+                    <p:outputLabel value="Descrição: " style="font-weight:bold"/>
+                    <p:inputText value="#{managerProduto.produto.descricao}" required="true" requiredMessage="O campo descrição é obrigatório"/>
+                    <p:outputLabel value="Estoque: " style="font-weight:bold"/>
+                    <p:inputNumber value="#{managerProduto.produto.estoque}" minValue="1" required="true" requiredMessage="O campo estoque é obrigatório"/>
+                </h:panelGrid>
+                <p:commandButton icon="pi pi-plus-circle" value="Adicionar" actionListener="#{managerProduto.adicionarProdutoNaLista()}" update="@form" />            
+                <p:dataTable id = "produtos" var="p" value="#{managerProduto.produtos}" editable="true">                 
+                    <p:column headerText="Nome">
+                        <p:outputLabel value="#{p.nome}"/>
+                   </p:column>
+                    <p:column headerText="Descrição">
+                        <p:outputLabel value="#{p.descricao}"/> 
+                    </p:column>                
+                    <p:column headerText="Estoque">
+                        <p:outputLabel value="#{p.estoque}"/>
+                    </p:column>               
+                    <p:column headerText="Ação">
+                       <p:commandButton icon="pi pi-trash" actionListener="#{managerProduto.remover(p)}" update="@form" />
+                       <p:commandButton icon="pi pi-pencil"/>   
+                    </p:column>
+                </p:dataTable>               
+                          
+                <br/>
+                <center>
+                    <p:commandButton value="Salvar" icon="pi pi-save" process="@this" actionListener="#{managerProduto.salvarLista()}"/>
+                    <p:button value="Voltar" icon="pi pi-undo" href="#{managerUnidadeSaude.voltarPara}"/> 
+                </center>
+            
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

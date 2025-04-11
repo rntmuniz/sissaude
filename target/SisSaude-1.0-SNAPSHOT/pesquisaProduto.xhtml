@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+    <h:head>
+        <!--<h:outputStylesheet library="css" name="style.css" />-->
+        <title>Cadastro de Produtos</title>
+    </h:head>
+    <h:body onload="#{managerProduto.buscaTodosProdutos()}">
+        <h:form id="form">
+            <p:growl/>
+            <p:panel header="Pesquisar Produtos">
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="Nome: "/>
+                    <p:inputText value="#{managerProduto.filtro}"/>
+                </h:panelGrid>
+                <p:commandButton icon="pi pi-plus-circle" value="Pesquisar" actionListener="#{managerProduto.filtraPorNome()}" update="@form" />
+                <p:button value="Voltar" icon="pi pi-home" href="#{managerProduto.voltarPara}"/>            
+                <p:dataTable id="produtoList" var="p" value="#{managerProduto.produtos}" editable="true">
+                    <p:column headerText="Id">
+                        <p:outputLabel value="#{p.id}"/>
+                   </p:column>
+                    <p:column headerText="Nome">
+                        <p:outputLabel value="#{p.nome}"/>
+                   </p:column>
+                    <p:column headerText="Descrição">
+                        <p:outputLabel value="#{p.descricao}"/> 
+                    </p:column>                
+                    <p:column headerText="Estoque">
+                        <p:outputLabel value="#{p.estoque}"/>
+                    </p:column>               
+                    <p:column headerText="Ações">
+                       <p:button icon="pi pi-eye" href="produto.xhtml?visualizar=#{p.id}"/>   
+                       <p:button icon="pi pi-pencil" href="produto.xhtml?editar=#{p.id}"/>
+                       <p:commandButton icon="pi pi-trash" oncomplete="PF('dlgExcluir').show()" update=":form:dlgExcluir">
+                           <f:setPropertyActionListener target="#{managerProduto.produto}" value="#{p}"/>
+                       </p:commandButton>
+                    </p:column>
+                </p:dataTable>               
+
+                <p:dialog id="dlgExcluir" widgetVar="dlgExcluir" header="Excluir Cliente">
+                    <h3>Deseja excluir esse Produto?</h3>
+                    <p:commandButton value="Sim" update="produtoList" actionListener="#{managerProduto.inativarProduto()}" oncomplete="PF('dlgExcluir').hide()"/>
+                    <p:commandButton value="Não" oncomplete="PF('dlgExcluir').hide()"/>
+                </p:dialog>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

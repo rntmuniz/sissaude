@@ -18,22 +18,15 @@ public class Lote implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "seq_lote_id")
     private Long id;
     
-//    @Column(nullable = false)
     private String codigo;
     
-//    @Column(nullable = false)
     private String descricao;
     
     @OneToOne
     private Produto produto;
     
-//    @Column(nullable = false)
-    private Date validade;
-    
-//    @Column(nullable = false)
-    private int quantidade;   
-    
-//    @Column(nullable = false)
+    private Date validade;    
+    private int quantidade;       
     private Boolean ativo;
 
     @ManyToOne
@@ -125,11 +118,6 @@ public class Lote implements Serializable{
         return Objects.equals(this.id, other.id);
     }
     
-//    @Override
-//    public String toString() {
-//        return "Lote{" + "id=" + id + ", codigo=" + codigo + ", descricao=" + descricao + ", produto=" + produto + ", validade=" + validade + ", quantidade=" + quantidade + ", ativo=" + ativo + '}';
-//    }
-
     @Override
     public String toString() {
         return "Lote{" + "id=" + id + ", codigo=" + codigo + ", descricao=" + descricao + ", validade=" + validade + ", quantidade=" + quantidade + ", ativo=" + ativo + '}';

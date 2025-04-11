@@ -15,25 +15,22 @@
             <p:panel header="Dados Entrada">
                 <h:panelGrid columns="4" width="100%" style="text-align:left">
                     <p:outputLabel value="Fornecedor: " style="font-weight:bold"/>
-                    <p:inputText value=""  requiredMessage="O campo Forncedor é obrigatório"/>
+                    <p:inputText value="#{managerEntrada.entrada.fornecedor}"  requiredMessage="O campo Forncedor é obrigatório"/>
                     <p:outputLabel value="Data Entrada: " style="font-weight:bold"/>
-                    <p:datePicker value="" 
+                    <p:datePicker value="#{managerEntrada.entrada.data}" 
                                   yearRange="2025-2025" monthNavigator="true" yearNavigator="true" />
                     <p:outputLabel value="Nota: " style="font-weight:bold"/>
-                    <p:inputText value=""  requiredMessage="O campo Nota é obrigatório"/>
+                    <p:inputText value="#{managerEntrada.entrada.numeroNota}"  requiredMessage="O campo Nota é obrigatório"/>
                 </h:panelGrid> 
-                <!--        </h:form> 
-                        <h:form id="formLote">-->
-                <!--<p:separator/>-->
             </p:panel>
             <p:panel header="Dados Lote">                
                 <h:panelGrid columns="6">
                     <p:outputLabel value="Código: " style="font-weight:bold"/>
-                    <p:inputText disabled="#{managerLote.editDesabilitado}" value="#{managerEntrada.lote.codigo}" 
+                    <p:inputText value="#{managerEntrada.lote.codigo}" 
                                  onblur="this.value = this.value.toUpperCase();" required="true" 
                                  requiredMessage="O campo Código é obrigatório"/>
                     <p:outputLabel value="Descrição: " style="font-weight:bold"/>
-                    <p:inputText disabled="#{managerLote.editDesabilitado}" value="#{managerEntrada.lote.descricao}" 
+                    <p:inputText  value="#{managerEntrada.lote.descricao}" 
                                  onblur="this.value = this.value.toUpperCase();" 
                                  required="true" requiredMessage="O campo Descrição é obrigatório"/>
                     <p:outputLabel value="Quantidade: " style="font-weight:bold"/>
@@ -49,16 +46,13 @@
                                     itemValue="#{produto}" value="#{managerEntrada.lote.produto}"
                                     completeMethod="#{managerLote.autoCompleteProduto}"/>
                 </h:panelGrid>
-                <p:commandButton icon="pi pi-plus-circle" value="Adicionar" actionListener="#{managerEntrada.adicionarLoteNaLista()}" process="@this" update="dTlotes" />            
+                <p:commandButton icon="pi pi-plus-circle" value="Adicionar" actionListener="#{managerEntrada.adicionarLoteNaLista()}" process="@form" update="@form" />            
 
                 <p:separator/>
-                <p:dataTable id ="dTlotes" var="lote" value="#{managerEntrada.listaLotes}" editable="true">                 
+                <p:dataTable id="dTlotes" var="lote" value="#{managerEntrada.entrada.lotesEntrada}" editable="true">                 
                     <p:column headerText="Código">
                         <p:outputLabel value="#{lote.codigo}"/>
                     </p:column>
-<!--                    <p:column headerText="Descrição">
-                        <p:outputLabel value="#{lote.descricao}"/> 
-                    </p:column>                -->
                     <p:column headerText="Produto">
                         <p:outputLabel value="#{lote.produto.nome}"/> 
                     </p:column>                
@@ -76,7 +70,7 @@
 
                 <br/>
                 <center>
-                    <p:commandButton value="Salvar" icon="pi pi-save" process="@this" actionListener="#{managerEntrada.salvarEntrada()}"/>
+                    <p:commandButton value="Salvar" icon="pi pi-save" process="@this" update="@form" actionListener="#{managerEntrada.salvarEntrada()}"/>
                     <p:button value="Voltar" icon="pi pi-undo" href="#{managerUnidadeSaude.voltarPara}"/> 
                 </center>
 

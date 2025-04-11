@@ -2,6 +2,7 @@ package io.programe.manager;
 
 import io.programe.model.Entrada;
 import io.programe.model.Lote;
+import io.programe.model.Produto;
 import io.programe.service.EntradaService;
 import io.programe.service.LoteService;
 import io.programe.util.Mensagem;
@@ -15,65 +16,68 @@ import java.util.List;
 
 @Named
 @ViewScoped
-public class ManagerEntrada implements Serializable{
-    
+public class ManagerEntrada implements Serializable {
+
     @Inject
     private EntradaService entradaService;
-    
+
     @Inject
     private LoteService loteService;
-    
+
     private Entrada entrada;
     private Lote lote;
-    private List<Lote> listaLotes;
 
     @PostConstruct
-    public void instanciarEntrada(){
+    public void instanciarEntrada() {
         instanciarLote();
-        iniciarListaLote();
+        iniciarEntrada();
+    }
+
+    public void iniciarEntrada() {
         entrada = new Entrada();
+        entrada.setLotesEntrada(new ArrayList<>());
     }
-    
-    public void iniciarListaLote(){
-        listaLotes = new ArrayList<>();
-    }
-    
-    public void instanciarLote(){
+
+    public void instanciarLote() {
         lote = new Lote();
     }
-    
-    public void adicionarLoteNaLista(){
-        listaLotes.add(lote);
+
+    public void adicionarLoteNaLista() {
+        entrada.getLotesEntrada().add(lote);
         instanciarLote();
     }
-    
-    public void removerLote(Lote l){
+
+    public void removerLote(Lote l) {
         try {
             entrada.getLotesEntrada().remove(l);
             Mensagem.mensagemInfo("Lote removido com sucesso.");
         } catch (Exception e) {
             Mensagem.mensagemErr("Erro ao excluir Lote:" + Mensagem.getMessageErro(e));
-        }        
+        }
     }
-    
+
     public void salvarListaLotes() {
         for (Lote l : entrada.getLotesEntrada()) {
             loteService.salvar(l);
         }
     }
-    
+
     public void salvarEntrada() {
         try {
-            if ((entrada.getId() == null) && (entrada.getData() == null)) {
-                entradaService.salvar(entrada);
+            if (entrada.getId() == null) {
                 salvarListaLotes();
+                entradaService.salvar(entrada);
+                for (Lote l : entrada.getLotesEntrada()) {
+                    l.setEntrada(entrada);
+                    loteService.atualizar(l);
+                }
                 Mensagem.mensagemInfo("Entrada salva com sucesso.");
             } else {
                 if (entrada.getId() != null) {
                     entradaService.atualizar(entrada);
                     Mensagem.mensagemInfo("Entrada atualizada com sucesso.");
                 }
-                Mensagem.mensagemAlert("Entrada inválida preencha os campos.");
+//                Mensagem.mensagemAlert("Entrada inválida preencha os campos.");
             }
             instanciarEntrada();
 //            iniciarListaLote();
@@ -81,7 +85,7 @@ public class ManagerEntrada implements Serializable{
         } catch (Exception e) {
             Mensagem.mensagemErr("Erro ao salvar Entrada:" + Mensagem.getMessageErro(e));
         }
-
+//
     }
 
     public Entrada getEntrada() {
@@ -92,14 +96,6 @@ public class ManagerEntrada implements Serializable{
         this.entrada = entrada;
     }
 
-    public List<Lote> getListaLotes() {
-        return listaLotes;
-    }
-
-    public void setListaLotes(List<Lote> listaLotes) {
-        this.listaLotes = listaLotes;
-    }
-
     public Lote getLote() {
         return lote;
     }
@@ -107,6 +103,5 @@ public class ManagerEntrada implements Serializable{
     public void setLote(Lote lote) {
         this.lote = lote;
     }
-    
-    
+
 }

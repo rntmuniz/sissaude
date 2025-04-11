@@ -24,12 +24,12 @@ public class Saida implements Serializable{
     @Column(nullable = false)    
     private Date data;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "unidadesaude_id", referencedColumnName = "id")
     private UnidadeSaude unidadeSaude;
     
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "itemsaida_id", referencedColumnName = "id")
+    @OneToMany
+    @JoinColumn(name = "lotesaida_id", referencedColumnName = "id")
     private List<Lote> lotesSaida;
     
     @Column(nullable = false)

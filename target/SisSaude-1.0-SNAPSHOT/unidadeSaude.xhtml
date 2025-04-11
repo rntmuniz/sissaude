@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+    <h:head>
+        <!--<h:outputStylesheet library="css" name="style.css" />-->
+        <title> Unidade de Saúde </title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:growl/>
+            <p:panel header="#{managerUnidadeSaude.nomeBotao} Unidade de Saúde" >
+                <h:panelGrid columns="1" cellpadding="2" >
+                    <p:outputLabel value="Nome: " style="font-weight:bold"/>
+                    <p:inputText value="#{managerUnidadeSaude.unidadeSaude.nome}" onblur="this.value = this.value.toUpperCase();" 
+                                 required="true" requiredMessage="O campo nome é obrigatório"/>
+                    <p:outputLabel value="Código: " style="font-weight:bold"/>
+                    <p:inputText value="#{managerUnidadeSaude.unidadeSaude.codigo}" onblur="this.value = this.value.toUpperCase();" 
+                                 required="true" requiredMessage="O campo código é obrigatório"/>
+                </h:panelGrid>
+                <br/>
+                <center>
+                    <p:commandButton class="button" rendered="#{managerUnidadeSaude.btnVerSalvar}" 
+                                     value="#{managerUnidadeSaude.nomeBotao}" icon="pi pi-save" 
+                                     actionListener="#{managerUnidadeSaude.salvar()}" update="@form"/>
+                    <p:button value="Listar" icon="pi pi-book" href="pesquisaUnidadeSaude.xhtml"/>
+                    <p:button value="Voltar" icon="pi pi-undo" href="#{managerUnidadeSaude.voltarPara}"/>
+                </center>            
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
